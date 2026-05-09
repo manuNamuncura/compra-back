@@ -8,6 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './roles/role.module';
 import { PermissionModule } from './permission/permission.module';
+import { ProductsModule } from './products/products.module';
+import { PurchasesModule } from './purchases/purchases.module';
+import { SupermarketsModule } from './supermarkets/supermarkets.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { PermissionModule } from './permission/permission.module';
         ],
       }),
     }),
+    ProductsModule,
+    PurchasesModule,
+    SupermarketsModule,
   ],
   providers: [
     {

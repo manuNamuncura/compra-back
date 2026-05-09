@@ -14,31 +14,31 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
-    @Permissions('user:read')
+    @Permissions('user:read' as PermissionName)
     async findAll(): Promise<UserResponseDto[]> {
         return this.userService.findAll();
     }
 
     @Get(':id')
-    @Permissions('user:read')
+    @Permissions('user:read' as PermissionName)
     async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponseDto> {
         return this.userService.findOne(id);
     }
 
     @Get(':id/roles')
-    @Permissions('user:read')
+    @Permissions('user:read' as PermissionName)
     async getUserRoles(@Param('id', ParseUUIDPipe) id: string) {
         return this.userService.getUserRoles(id);
     }
 
     @Post()
-    @Permissions('user:create')
+    @Permissions('user:create' as PermissionName)
     async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
         return this.userService.create(createUserDto);
     }
 
     @Patch(':id')
-    @Permissions('user:update')
+    @Permissions('user:update' as PermissionName)
     async update(
         @Param('id', ParseUUIDPipe) id: string,
         @Body() updateUserDto: UpdateUserDto,
@@ -46,8 +46,8 @@ export class UserController {
         return this.userService.update(id, updateUserDto);
     }
 
-    @Patch('id/roles')
-    @Permissions('user:update')
+    @Patch(':id/roles')
+    @Permissions('user:update' as PermissionName)
     async assignRoles(
         @Param('id', ParseUUIDPipe) id: string,
         @Body() assignRolesDto: AssignRolesDto,
@@ -56,7 +56,7 @@ export class UserController {
     }
 
     @Delete(':id')
-    @Permissions('user:delete')
+    @Permissions('user:delete' as PermissionName)
     async remove(@Param('id', ParseUUIDPipe) id: string): Promise<{ message: string}> {
         await this.userService.remove(id);
         return { message: `User with ID ${id} deleted successfully` };
