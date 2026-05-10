@@ -1,10 +1,10 @@
 export class CreatePurchaseDto {
-    supermarketId: number;
-    items: CreatePurchaseItemDto[];
+  supermarketId: number;
+  items: CreatePurchaseItemDto[];
 }
 
 export class CreatePurchaseItemDto {
-    productId: number;
-    quantity: number;
-    expiration?: Date;
+  productId: number;
+  quantity: number;
+  expiration?: Date;
 }

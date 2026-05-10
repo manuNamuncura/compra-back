@@ -96,7 +96,9 @@ describe('AuthService', () => {
       password: 'secret123',
     });
 
-    expect((prismaMock.userRole.create as jest.Mock).mock.calls[0]?.[0]).toEqual({
+    expect(
+      (prismaMock.userRole.create as jest.Mock).mock.calls[0]?.[0],
+    ).toEqual({
       data: { userId: 'u1', roleId: 'r1' },
     });
     expect((jwtMock.sign as jest.Mock).mock.calls.length).toBeGreaterThan(0);

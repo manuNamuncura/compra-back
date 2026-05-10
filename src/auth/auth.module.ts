@@ -9,20 +9,22 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import type { SignOptions } from 'jsonwebtoken';
 
 @Module({
-    imports: [
-        PassportModule,
-        JwtModule.registerAsync({
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService) => ({
-                secret: configService.getOrThrow<string>('jwt.secret'),
-                signOptions: {
-                    expiresIn: configService.get<string>('jwt.expiration') as SignOptions['expiresIn'],
-                },
-            }),
-        }),
-    ],
-    controllers: [AuthController],
-    providers: [AuthService, JwtStrategy, JwtAuthGuard],
-    exports: [JwtAuthGuard, JwtModule],
+  imports: [
+    PassportModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>('jwt.secret'),
+        signOptions: {
+          expiresIn: configService.get<string>(
+            'jwt.expiration',
+          ) as SignOptions['expiresIn'],
+        },
+      }),
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard],
+  exports: [JwtAuthGuard, JwtModule],
 })
 export class AuthModule {}

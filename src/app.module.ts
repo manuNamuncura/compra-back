@@ -11,6 +11,8 @@ import { PermissionModule } from './permission/permission.module';
 import { ProductsModule } from './products/products.module';
 import { PurchasesModule } from './purchases/purchases.module';
 import { SupermarketsModule } from './supermarkets/supermarkets.module';
+import { CategoriesModule } from './categories/categories.module';
+import { BrandsModule } from './brands/brands.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { SupermarketsModule } from './supermarkets/supermarkets.module';
     ProductsModule,
     PurchasesModule,
     SupermarketsModule,
+    CategoriesModule,
+    BrandsModule,
   ],
   providers: [
     {

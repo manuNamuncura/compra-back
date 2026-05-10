@@ -41,9 +41,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('User not found');
     }
 
-    const roles = user.roles.map(userRole => userRole.role.name);
-    const permissions = user.roles.flatMap(userRole =>
-      userRole.role.permissions.map(rp => rp.permission.name)
+    const roles = user.roles.map((userRole) => userRole.role.name);
+    const permissions = user.roles.flatMap((userRole) =>
+      userRole.role.permissions.map((rp) => rp.permission.name),
     );
 
     return {

@@ -23,13 +23,13 @@ export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
   @Get()
-  @Permissions('permission:read' as PermissionName)
+  @Permissions('permission:read')
   async findAll(): Promise<PermissionResponseDto[]> {
     return this.permissionService.findAll();
   }
 
   @Get(':id')
-  @Permissions('permission:read' as PermissionName)
+  @Permissions('permission:read')
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<PermissionResponseDto> {
@@ -37,13 +37,13 @@ export class PermissionController {
   }
 
   @Get(':id/roles')
-  @Permissions('permission:read' as PermissionName)
+  @Permissions('permission:read')
   async getPermissionRoles(@Param('id', ParseUUIDPipe) id: string) {
     return this.permissionService.getPermissionRoles(id);
   }
 
   @Post()
-  @Permissions('permission:create' as PermissionName)
+  @Permissions('permission:create')
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
   ): Promise<PermissionResponseDto> {
@@ -51,7 +51,7 @@ export class PermissionController {
   }
 
   @Patch(':id')
-  @Permissions('permission:update' as PermissionName)
+  @Permissions('permission:update')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePermissionDto: UpdatePermissionDto,
@@ -60,7 +60,7 @@ export class PermissionController {
   }
 
   @Delete(':id')
-  @Permissions('permission:delete' as PermissionName)
+  @Permissions('permission:delete')
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<{ message: string }> {

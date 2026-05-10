@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,7 +25,7 @@ export class UserService {
       },
     });
 
-    return users.map(user => this.mapToResponseDto(user));
+    return users.map((user) => this.mapToResponseDto(user));
   }
 
   async findOne(id: string): Promise<UserResponseDto> {
@@ -94,7 +98,7 @@ export class UserService {
     // Asignar roles si se proporcionan
     if (createUserDto.roleIds && createUserDto.roleIds.length > 0) {
       await this.assignRoles(user.id, { roleIds: createUserDto.roleIds });
-      
+
       // Refrescar usuario con roles asignados
       const updatedUser = await this.prisma.user.findUnique({
         where: { id: user.id },
@@ -112,7 +116,10 @@ export class UserService {
     return this.mapToResponseDto(user);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -158,7 +165,7 @@ export class UserService {
     // Actualizar roles si se proporcionan
     if (updateUserDto.roleIds) {
       await this.assignRoles(id, { roleIds: updateUserDto.roleIds });
-      
+
       // Refrescar usuario
       const refreshedUser = await this.prisma.user.findUnique({
         where: { id },
@@ -196,7 +203,10 @@ export class UserService {
     });
   }
 
-  async assignRoles(id: string, assignRolesDto: AssignRolesDto): Promise<UserResponseDto> {
+  async assignRoles(
+    id: string,
+    assignRolesDto: AssignRolesDto,
+  ): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -223,7 +233,7 @@ export class UserService {
 
     // Asignar nuevos roles
     await this.prisma.userRole.createMany({
-      data: assignRolesDto.roleIds.map(roleId => ({
+      data: assignRolesDto.roleIds.map((roleId) => ({
         userId: id,
         roleId,
       })),
@@ -268,16 +278,16 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    return user.roles.map(userRole => ({
+    return user.roles.map((userRole) => ({
       id: userRole.role.id,
       name: userRole.role.name,
       description: userRole.role.description,
-      permissions: userRole.role.permissions.map(rp => rp.permission.name),
+      permissions: userRole.role.permissions.map((rp) => rp.permission.name),
     }));
   }
 
   private mapToResponseDto(user: any): UserResponseDto {
-    const roles = user.roles?.map(userRole => ({
+    const roles = user.roles?.map((userRole) => ({
       id: userRole.role.id,
       name: userRole.role.name,
       description: userRole.role.description,
