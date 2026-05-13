@@ -1,5 +1,3 @@
-// schema.prisma - VERSIÓN UNIFICADA COMPLETA
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ================ MÓDULO DE AUTENTICACIÓN (TU CÓDIGO EXISTENTE) ================
 model User {
   id        String   @id @default(cuid())
   name      String
@@ -18,8 +15,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  mustChangePassword Boolean @default(false)
+  lastPasswordChange DateTime?
+  passwordHistory    Json?
+
   roles     UserRole[]
-  purchases Purchase[] // ← AGREGAMOS esta relación
+  purchases Purchase[]
 }
 
 model Role {
@@ -63,8 +64,6 @@ model RolePermission {
 
   @@unique([roleId, permissionId])
 }
-
-// ================ MÓDULO DE COMPRAS (NUEVO) ================
 
 model Supermarket {
   id        Int      @id @default(autoincrement())

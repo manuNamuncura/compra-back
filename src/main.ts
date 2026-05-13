@@ -9,7 +9,7 @@ async function bootstrap() {
   app.use(helmet.default());
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
+    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'],
     credential: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

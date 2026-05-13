@@ -144,24 +144,34 @@ export class PurchasesService {
     return purchase;
   }
 
+  // Estadisticas
   async getUserStats(userId: string) {
     const purchases = await this.prisma.purchase.findMany({
       where: { userId },
+      orderBy: { createdAt: 'desc' },
       include: {
-        items: true,
+        items: {
+          include: { product: true },
+        },
+        supermarket: true,
       },
     });
 
     const totalSpent = purchases.reduce((sum, p) => sum + p.total, 0);
-    const averagePerPurchase =
-      purchases.length > 0 ? totalSpent / purchases.length : 0;
+
+    // Filtrar gasto solo del mes actual
+    const now = new Date();
+    const currentMontSpent = purchases
+      .filter(p => p.createdAt.getMonth() === now.getMonth() && p.createdAt.getFullYear() === now.getFullYear())
+      .reduce((sum, p) => sum + p.total, 0)
 
     // Top productos comprados
     const productCount = new Map();
     purchases.forEach((purchase) => {
       purchase.items.forEach((item) => {
-        const count = productCount.get(item.productId) || 0;
-        productCount.set(item.productId, count + item.quantity);
+        const name = item.product.name;
+        const current = productCount.get(name) || 0;
+        productCount.set(name, current + item.quantity);
       });
     });
 
@@ -173,8 +183,10 @@ export class PurchasesService {
     return {
       totalPurchases: purchases.length,
       totalSpent,
-      averagePerPurchase,
+      currentMontSpent,
+      averagePerPurchase: purchases.length > 0 ? totalSpent / purchases.length : 0,
       topProducts,
+      lastPurchase: purchases[0] || null,
     };
   }
 }

@@ -13,6 +13,9 @@ import { PurchasesModule } from './purchases/purchases.module';
 import { SupermarketsModule } from './supermarkets/supermarkets.module';
 import { CategoriesModule } from './categories/categories.module';
 import { BrandsModule } from './brands/brands.module';
+import { PasswordChangeGuard } from './auth/guards/password-change.guard';
+import { cp } from 'fs';
+import { CompositeGuard } from './auth/guards/composite.guard';
 
 @Module({
   imports: [
@@ -39,10 +42,12 @@ import { BrandsModule } from './brands/brands.module';
     BrandsModule,
   ],
   providers: [
+    ThrottlerGuard,
+    PasswordChangeGuard,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
+      useClass: CompositeGuard,
+    }
   ],
 })
 export class AppModule {}
